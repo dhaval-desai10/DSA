@@ -90,7 +90,7 @@ void gcd(int a, int b)
     //     }
     // }
 
-    // // making more optimization of  above version ,in worst case both are same
+    // // making more better of  above version ,in worst case both are same
 
     for (int i = min(a, b); i >= 1; i--)
     {
@@ -118,6 +118,15 @@ void gcd(int a, int b)
 
     cout << "GCD : " << gcd << endl;
 }
+
+// // lcm of two number
+
+// int lcm (int a, int b)
+// {
+    
+//     return (a * b) / gcd;
+// }
+
 
 int main()
 {
