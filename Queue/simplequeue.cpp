@@ -69,31 +69,43 @@ public:
    void enqueue(int data)
    {
       Node *newNode = new Node(data);
-      cout<<"pushed : "<<newNode->data<<endl;
+      cout << "pushed : " << newNode->data << endl;
       if (start == nullptr)
       {
          start = newNode;
          end = newNode;
       }
-      else {
+      else
+      {
          end->next = newNode;
          end = newNode;
       }
       size++;
    }
-   void dequeue(){
-      if(start == nullptr){
-         cout<<"nothing has to poped "<<endl;
+   void dequeue()
+   {
+      if (start == nullptr)
+      {
+         cout << "nothing has to poped " << endl;
          return;
       }
-      cout<<"poped : "<<start->data<<endl;
-      Node* temp = start;
+      cout << "poped : " << start->data << endl;
+      Node *temp = start;
       start = start->next;
       delete temp;
-      if(start == nullptr){
+      if (start == nullptr)
+      {
          end = nullptr;
       }
       size--;
+   }
+   void top()
+   {
+      if (start == nullptr)
+      {
+         cout << "nothing" << endl;
+      }
+      cout << "top is : " << start->data << endl;
    }
 };
 
@@ -110,6 +122,8 @@ int main()
    // qq.enqueue(5);
    qq.dequeue();
    qq.dequeue();
+
+   qq.top();
 
    return 0;
 }
