@@ -123,10 +123,28 @@ void gcd(int a, int b)
 
 // int lcm (int a, int b)
 // {
-    
+
 //     return (a * b) / gcd;
 // }
 
+// armstrong number
+
+string is_armstrong(int n)
+{
+    int sum = 0;
+    int num = n;
+    while (n != 0)
+    {
+        int digit = n % 10;
+        sum += (int)round(pow(digit, (double)3));
+        n /= 10;
+    }
+    if (sum == num)
+    {
+        return "true";
+    }
+    return "false";
+}
 
 int main()
 {
@@ -140,7 +158,9 @@ int main()
     // reverse_number(321);
 
     // // 2.
-    gcd(10, 52);
+    // gcd(10, 52);
+
+    cout << is_armstrong(153) << endl;
 
     return 0;
 }

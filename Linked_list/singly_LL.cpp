@@ -9,7 +9,6 @@
 // {
 //     Node *first;
 //     Node *last;
-
 // public:
 //     linked_list()
 //     {
@@ -32,11 +31,9 @@
 //             first = newnode;
 //         }
 //     }
-
 //     void insertatend(int value)
 //     {
 //         Node *newnode = new Node();
-
 //         newnode->data = value;
 //         newnode->next = NULL;
 //         if (first == NULL)
@@ -157,7 +154,6 @@
 //         while (temp != NULL)
 //         {
 //             cout << temp->data << " ";
-
 //             temp = temp->next;
 //         }
 //         cout << endl;
@@ -170,7 +166,6 @@
 //     cout << "1. Insert at front\n2. Insert at end\n3. Insert at position" << endl;
 //     cout << "4. Delete at front\n5. Delete at end\n6. Display\n7. Delet at position." << endl;
 //     cout << "0. exit " << endl;
-
 //     do
 //     {
 //         cout << "Enter the chooice : ";
@@ -230,7 +225,6 @@
 //         }
 //         }
 //     } while (n != 0);
-
 //     return 0;
 // }
 
@@ -247,6 +241,7 @@ public:
         this->next = next;
     }
 };
+
 
 Node *convertarr2ll(vector<int> arr)
 {
@@ -434,26 +429,26 @@ Node *reverse_ll(Node *head)
         temp->next = prev;
         prev = temp;
         temp = front;
-       
     }
     return prev;
 }
 
-int main()
-{
-    // Node* y = new Node(5,nullptr);
-    // cout<< y->data<<endl;
-    vector<int> arr = {2, 4, 5, 6, 7};
-    Node *head = convertarr2ll(arr);
-    // head = deletehead(head);
-    // head = deletetail(head);
-    // head = deletek(head, 1);
-    // head = removeGivenNode(head, 7);
-    // head = inserhead(head, 5);
-    // head = insertail(head, 10);
-    // head = insertatposition(head,2,8);
-    Node *head1 = reverse_ll(head);
-    print(head1);
+// int main()
+// {
+//     // Node* y = new Node(5,nullptr);
+//     // cout<< y->data<<endl;
+//     vector<int> arr = {2, 4, 5, 6, 7};
+//     Node *head = convertarr2ll(arr);
+//     // head = deletehead(head);
+//     // head = deletetail(head);
+//     // head = deletek(head, 1);
+//     // head = removeGivenNode(head, 7);
+//     // head = inserhead(head, 5);
+//     // head = insertail(head, 10);
+//     // head = insertatposition(head,2,8);
+//     // Node *head1 = reverse_ll(head);
+//     // print(head1);
 
-    return 0;
-}
+//     return 0;
+// }
+

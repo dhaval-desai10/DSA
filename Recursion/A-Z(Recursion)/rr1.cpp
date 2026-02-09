@@ -125,7 +125,7 @@ void sum_isK_subsequence(int i, vector<int> arr, vector<int> ans, int sum, int s
             found = true; // set flag
         }
         return;
-    }
+    } 
     ans.push_back(arr[i]);
     sum_isK_subsequence(i + 1, arr, ans, sum + arr[i], sumK, found);
     ans.pop_back();

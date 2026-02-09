@@ -21,6 +21,7 @@ void longest_substring_with_at_most_k_distinct_char(string s, int k)
     //             break;
     //     }
     // }
+    
 
     int l = 0;
     int r = 0;

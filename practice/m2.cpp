@@ -1,178 +1,294 @@
-// #include <iostream>
-// using namespace std;
-// int partition(int arr[], int start, int end)
-// {
-//     int pivot = arr[start];
-//     int count = 0;
-//     for (int i = start + 1 ; i <= end; i++)
-//     {
-//         if (arr[i] <= pivot)
-//         {
-//             count++;
-//         }
-//     }
-//     int pivotindex = start + count;
-//     swap(arr[start],arr[pivotindex]);
-//     int i = start;
-//     int j = end;
-//     while(i<pivotindex && j>pivotindex)
-//     {
-//         if(arr[i] < pivot)
-//         {
-//             i++;
-//         }
-//         else if(arr[j] > pivot)
-//         {
-//             j--;
-//         }
-//         else{
-//             swap(arr[i],arr[j]);
-//             i++;
-//             j--;
-//         }
-//     }
-//     return pivotindex;
-
-// }
-// void quicksort(int arr[], int start, int end)
-// {
-//     if (start >= end)
-//     {
-//         return;
-//     }
-//     int p = partition(arr, start, end);
-//     quicksort(arr, start, p - 1);
-//     quicksort(arr, p + 1, end);
-// }
-// int main()
-// {
-//     int arr[5] = {1, 3, 5, 4, 7};
-//     int n = 5;
-//     quicksort(arr, 0, n - 1);
-//     cout << "sorted array is : " << endl;
-//     for (int i = 0; i < n; i++)
-//     {
-//         cout << arr[i] << " ";
-//     }
-//     cout << endl;
-
-//     return 0;
-// }
-
-// #include <iostream>
-// using namespace std;
-
-// class PriorityQueue {
-// private:
-//     int *arr;
-//     int capacity;
-//     int size;
-
-// public:
-//     PriorityQueue(int cap) {
-//         capacity = cap;
-//         arr = new int[capacity];
-//         size = 0;
-//     }
-
-//     ~PriorityQueue() {
-//         delete[] arr;
-//     }
-
-//     void enqueue(int value) {
-//         if (size == capacity) {
-//             cout << "Priority Queue is full" << endl;
-//             return;
-//         }
-
-//         // Insert the new element in the correct position to maintain the order
-//         int i;
-//         for (i = size - 1; (i >= 0 && arr[i] < value); i--) {
-//             arr[i + 1] = arr[i];
-//         }
-//         arr[i + 1] = value;
-//         size++;
-//         cout << value << " is enqueued" << endl;
-//     }
-
-//     void dequeue() {
-//         if (size == 0) {
-//             cout << "Priority Queue is empty" << endl;
-//             return;
-//         }
-
-//         cout << arr[0] << " is dequeued" << endl;
-//         for (int i = 0; i < size - 1; i++) {
-//             arr[i] = arr[i + 1];
-//         }
-//         size--;
-//     }
-
-//     int peek() {
-//         if (size == 0) {
-//             cout << "Priority Queue is empty" << endl;
-//             return -1;
-//         }
-//         return arr[0];
-//     }
-
-//     bool isEmpty() {
-//         return size == 0;
-//     }
-
-//     bool isFull() {
-//         return size == capacity;
-//     }
-// };
-
-// int main() {
-//     PriorityQueue pq(5);
-
-//     pq.enqueue(30);
-//     pq.enqueue(20);
-//     pq.enqueue(50);
-//     pq.enqueue(40);
-//     pq.enqueue(10);
-
-//     cout << "Top element is: " << pq.peek() << endl;
-
-//     pq.dequeue();
-
-//     pq.dequeue();
-
-//     cout << "Top element is: " << pq.peek() << endl;
-
-//     return 0;
-// }
-
-// find  all permutatons of given array
 #include <bits/stdc++.h>
 using namespace std;
-void printarray(vector<int> &arr)
+class Node
 {
-    for (int num : arr)
+public:
+    int data;
+    Node *next;
+    Node *back;
+    Node(int data, Node *next, Node *back)
     {
-        cout << num << " ";
+        this->data = data;
+        this->next = next;
+        this->back = back;
+    }
+    Node(int data)
+    {
+        this->data = data;
+        next = nullptr;
+        back = nullptr;
+    }
+};
+
+Node *conver2DoublyLL(vector<int> arr)
+{
+    Node *head = new Node(arr[0]);
+    Node *temp = head;
+    for (int i = 1; i < arr.size(); i++)
+    {
+        Node *newNode = new Node(arr[i]);
+        temp->next = newNode;
+        newNode->back = temp;
+        temp = temp->next;
+    }
+    return head;
+}
+
+Node *deletehead(Node *head)
+{
+    if (!head)
+        return nullptr;
+    Node *newhead = head->next;
+    if (newhead)
+        newhead->back = nullptr;
+    delete head;
+    return newhead;
+}
+Node *deletetail(Node *head)
+{
+    if (!head)
+        return nullptr;
+    if (!head->next)
+    {
+        delete head;
+        return nullptr;
+    }
+    Node *temp = head;
+    while (temp->next)
+        temp = temp->next;
+    Node *prev = temp->back;
+    prev->next = nullptr;
+    delete temp;
+    return head;
+}
+
+Node *deletekth(Node *head, int k)
+{
+    if (!head)
+        return nullptr;
+    if (k == 1)
+        return deletehead(head);
+    int count = 0;
+    Node *temp = head;
+    while (temp)
+    {
+        count++;
+        if (count == k)
+            break;
+        temp = temp->next;
+    }
+    Node *prev = temp->back;
+    Node *front = temp->next;
+    if (prev == nullptr && front == nullptr)
+    {
+        delete temp;
+        return nullptr;
+    }
+    else if (prev == nullptr)
+    {
+        return deletehead(head);
+    }
+    else if (front == nullptr)
+    {
+        return deletetail(head);
+    }
+    prev->next = front;
+    front->back = prev;
+    delete temp;
+    return head;
+}
+
+void deletenode(Node *temp)
+{
+    Node *prev = temp->back;
+    Node *front = temp->next;
+    if (front == nullptr)
+    {
+        prev->next = nullptr;
+        temp->back = nullptr;
+        free(temp);
+        return;
+    }
+    prev->next = front;
+    front->back = prev;
+    temp->next = temp->back = nullptr;
+    free(temp);
+}
+
+Node *inserthead(Node *head, int val)
+{
+    Node *newNode = new Node(val);
+    newNode->next = head;
+    head->back = newNode;
+    newNode->back = nullptr;
+    return newNode;
+}
+
+Node *inserttail(Node *head, int val)
+{
+    Node *temp = head;
+    Node *prev;
+    while (temp->next)
+    {
+        prev = temp;
+        temp = temp->next;
+    }
+    Node *newNnode = new Node(val);
+    prev->next = newNnode;
+    newNnode->back = prev;
+    newNnode->next = temp;
+    temp->back = newNnode;
+    return head;
+}
+
+Node *insertatk(Node *head, int val, int k)
+{
+    if (head == nullptr)
+    {
+        return nullptr;
+    }
+    Node *temp = head;
+    int count = 0;
+    while (temp)
+    {
+        count++;
+        if (count == k)
+        {
+            break;
+        }
+        temp = temp->next;
+    }
+
+    Node *prev = temp->back;
+    Node *front = temp->next;
+    if (temp->back == nullptr)
+    {
+        return inserthead(head, val);
+    }
+    else if (front == nullptr)
+    {
+        return inserttail(head, val);
+    }
+
+    Node *newNode = new Node(val);
+    prev->next = newNode;
+    newNode->back = prev;
+    newNode->next = front;
+    front->back = newNode;
+    return head;
+}
+
+void insertbeforNode(Node *temp, int val)
+{
+    Node *newNode = new Node(val);
+    Node *prev = temp->back;
+    Node *front = temp->next;
+    prev->next = newNode;
+    newNode->back = prev;
+    newNode->next = temp;
+    temp->back = newNode;
+}
+
+Node *reverseList(Node *head)
+{
+    // Node *temp = head;
+    Node *cur = head;
+    Node *last = nullptr;
+    while (cur != nullptr)
+    {
+        last = cur->back;
+        cur->back = cur->next;
+        cur->next = last;
+        cur = cur->back;
+    }
+    return last->back;
+}
+
+Node *deleteallNode_key(Node *head, int key)
+{
+    Node *temp = head;
+    while (temp != nullptr)
+    {
+        if (temp->data == key)
+        {
+            Node *nextNode = temp->next;
+            Node *prevNode = temp->back;
+            if (temp == head)
+            {
+                head = nextNode;
+                if (head)
+                    head->back = nullptr;
+            }
+            else
+            {
+                if (nextNode)
+                    nextNode->back = prevNode;
+                if (prevNode)
+                    prevNode->next = nextNode;
+            }
+            delete temp;
+            temp = nextNode;
+        }
+        else
+        {
+            temp = temp->next;
+        }
+    }
+    return head;
+}
+
+void print(Node *head)
+{
+    Node *temp = head;
+    while (temp)
+    {
+        cout << temp->data << " ";
+        Node *prev = temp;
+        temp = temp->next;
     }
     cout << endl;
 }
-void generates(vector<int> &arr, int start)
-{
-    if (start == arr.size() - 1)
-    {
-        printarray(arr);
-        return;
-    }
-    for (int i = start; i < arr.size(); i++)
-    {
-        swap(arr[start], arr[i]);
-        generates(arr, start + 1);
-        swap(arr[start], arr[i]);
-    }
-}
+
 int main()
 {
-    vector<int> arr = {1, 2, 3};
-    generates(arr, 0);
+    vector<int> arr = {1, 3, 2, 4};
+    Node *head = conver2DoublyLL(arr);
+
+    // // 1.
+    // head = deletehead(head);
+
+    // // 2.
+    // head = deletetail(head);
+
+    // // 3.
+    // head = deletekth(head, 3);
+
+    // // 4.
+    // deletenode(head->next->next->next);
+
+    // // 5. insert befor head ---all before value;
+    // head = inserthead(head, 10);
+
+    // // 6. insert at tail
+    // head = inserttail(head, 10);
+
+    // // 7. insert at k
+    // head = insertatk(head, 10, 3);
+
+    // // 8.
+    // insertbeforNode(head->next->next->next,10);
+
+    // // 9. reverse the list
+    // head = reverseList(head);
+
+    // // 10.
+    deleteallNode_key(head, 3);
+
+    // print(head);
+
+    
+
+
+
     return 0;
 }

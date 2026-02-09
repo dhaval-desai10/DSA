@@ -45,7 +45,7 @@ void left_rotate_byK(vector<int> &arr, int d)
     // }
     // int j = 0;
     // for(int i = n-d;i<n;i++){
-    // arr[i] = temp[i - (n-d)];
+    // //arr[i] = temp[i - (n-d)];
     // arr[i] = temp[j];
     // j++;
     // }
@@ -87,6 +87,105 @@ void right_rotation_byK(vector<int> &arr, int d)
     for (int i = 0; i < n; i++)
     {
         cout << arr[i] << " ";
+    }
+    cout << endl;
+}
+
+void move_all_zero_toright(vector<int> &arr)
+{
+    int j = -1;
+    for (int i = 0; i < arr.size(); i++)
+    {
+        if (arr[i] == 0)
+        {
+            j = i;
+            break;
+        }
+    }
+    for (int i = j + 1; i < arr.size(); i++)
+    {
+        if (arr[i] != 0)
+        {
+            swap(arr[i], arr[j]);
+            j++;
+        }
+    }
+
+    for (int i = 0; i < arr.size(); i++)
+    {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+}
+
+void union_of_array(vector<int> &arr1, vector<int> &arr2)
+{
+    // set<int> st;
+    // for (int i = 0; i < arr1.size(); i++)
+    // {
+    //     st.insert(arr1[i]);
+    // }
+    // for (int i = 0; i < arr.size(); i++)
+    // {
+    //     st.insert(arr2[i]);
+    // }
+
+    // for (auto it : st)
+    // {
+    //     cout << it << " ";
+    // }
+    // cout << endl;
+
+    vector<int> a = arr1, b = arr2;
+    sort(a.begin(), a.end());
+    sort(b.begin(), b.end());
+
+    vector<int> result;
+    int n1 = a.size(), n2 = b.size();
+    int i = 0, j = 0;
+    while (i < n1 && j < n2)
+    {
+        int val;
+        if (a[i] < b[j])
+        {
+            val = a[i];
+            i++;
+        }
+        else if (b[j] < a[i])
+        {
+            val = b[j];
+            j++;
+        }
+        else
+        {
+            val = a[i];
+            i++;
+            j++;
+        }
+        if (result.empty() || result.back() != val)
+        {
+            result.push_back(val);
+        }
+    }
+    while (i < n1)
+    {
+        if (result.empty() || result.back() != a[i])
+        {
+            result.push_back(a[i]);
+        }
+        i++;
+    }
+    while (j < n2)
+    {
+        if (result.empty() || result.back() != b[j])
+        {
+            result.push_back(b[j]);
+        }
+        j++;
+    }
+    for (int i = 0; i < result.size(); i++)
+    {
+        cout << result[i] << " ";
     }
     cout << endl;
 }
@@ -199,6 +298,16 @@ void consecutive_1(vector<int> &arr)
     cout << "maxcount : " << maxcount << endl;
 }
 
+void findi_single_appears(vector<int> &arr)
+{
+    int xorr = 0;
+    for (int i = 0; i < arr.size(); i++)
+    {
+        xorr = xorr ^ arr[i];
+    }
+    cout << "appearing once in array : " << xorr << endl;
+}
+
 void print_all_subarray(vector<int> &arr)
 {
     int n = arr.size();
@@ -261,34 +370,63 @@ void subarray_with_sumK(vector<int> &arr, int s)
 
     // cout << "maxilen : " << maxlen << endl;
 
-    int left = 0;
-    int right = 0;
+    // // better approach
+    // int left = 0;
+    // int right = 0;
 
-    long long sum = arr[0];
+    // long long sum = arr[0];
 
-    while (right < n)
+    // while (right < n)
+    // {
+    //     while (sum > s && left <= right)
+    //     {
+    //         sum -= arr[left];
+    //         left++;
+    //     }
+    //     if (sum == s)
+    //     {
+    //         maxlen = max(maxlen, right - left + 1);
+    //     }
+    //     right++;
+    //     if (right < n)
+    //         sum += arr[right];
+    // }
+    // cout << "maxilen : " << maxlen << endl;
+
+    map<long long, int> presum;
+    long long sum = 0;
+    int maxilen = 0;
+    for (int i = 0; i < arr.size(); i++)
     {
-        while (sum > s && left <= right)
-        {
-            sum -= arr[left];
-            left++;
-        }
+        sum += arr[i];
         if (sum == s)
         {
-            maxlen = max(maxlen, right - left + 1);
+            maxilen = max(maxilen, i + 1);
         }
-        right++;
-        if (right < n)
-            sum += arr[right];
+        long long rem = sum - s;
+        if (presum.find(rem) != presum.end())
+        {
+            int len = i - presum[rem];
+            maxilen = max(maxilen, len);
+        }
+        // // only for the positive elements in the array not for zero also
+
+        // // for zaro add condition do not update the prevsum
+        if (presum.find(sum) == presum.end())
+        {
+            presum[sum] = i;
+        }
+        presum[sum] = i;
     }
-    cout << "maxilen : " << maxlen << endl;
+    cout << "maxilength : " << maxilen << endl;
 }
 
 int main()
 {
     vector<int> arr1 = {1, 1, 0, 0, 1, 1};
-    vector<int> arr2 = {1, 2, 3, 4, 5, 6, 7};
-    vector<int> arr = {1, 1, 1, 3, 4};
+    vector<int> arr2 = {1, 2, 0, 1, 3, 4, 7};
+    // vector<int> arr = {1, 6, 2, 2, 2, 3, 3};
+    vector<int> arr = {2, 0, 0, 0, 3};
 
     // // 1.
     // remove_duplicate(arr2);
@@ -299,6 +437,12 @@ int main()
     // // 3.
     // right_rotation_byK(arr2, 3);
 
+    // // 4. move zeros
+    // move_all_zero_toright(arr);
+
+    // // 5. union of array
+    // union_of_array(arr1, arr2);
+
     // // 4.
     // intersection_a(arr1, arr2);
 
@@ -308,11 +452,14 @@ int main()
     // // 6.
     // consecutive_1(arr1);
 
+    // // 9.
+    // findi_single_appears(arr);
+
     // // 7.
     // print_all_subarray(arr);
 
-    // // 8./
-    subarray_with_sumK(arr, 6);
+    // // 8.
+    subarray_with_sumK(arr, 3);
 
     return 0;
 }

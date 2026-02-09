@@ -6,32 +6,27 @@ int main()
     cout << "size of an array : ";
     cin >> n;
     int arr[n];
-     cout << "Enter the array elements : " << endl;
+    cout << "Enter the array elements : " << endl;
     for (int i = 0; i < n; i++)
     {
         cin >> arr[i];
     }
-    
-    for (int i = 0; i < n - 1; i++)
+
+    for (int i = 0; i <= n - 2; i++)
     {
-        int minIndex = i; 
-        for (int j = i + 1; j < n; j++)
+        int mini = i;
+        for (int j = i; j <= n - 1; j++)
         {
-            if (arr[j] < arr[minIndex])
-            {
-                minIndex = j; 
-            }
+            if (arr[j] < arr[mini])
+                mini = j;
         }
-        int temp = arr[minIndex];
-        arr[minIndex] = arr[i];
-        arr[i] = temp;
+        swap(arr[mini], arr[i]);
     }
 
-// Print the sorted array
-for (int x = 0; x < n; x++)
-{
-    cout << arr[x] << " ";
-}
-cout << endl;
-
+    // Print the sorted array
+    for (int x = 0; x < n; x++)
+    {
+        cout << arr[x] << " ";
+    }
+    cout << endl;
 }
