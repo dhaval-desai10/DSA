@@ -30,8 +30,8 @@ void binary2_decimal(string s)
         if (s[i] == '1')
         {
             decimal += base;
-            base *= 2;
         }
+        base *= 2;
     }
     cout << "Decimal : " << decimal << endl;
 }

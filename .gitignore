@@ -1,0 +1,46 @@
+# Ignore executable files
+*.exe
+
+# Ignore object files
+*.o
+
+# Ignore temporary files
+*.obj
+*.tmp
+*.log
+*.out
+*.class
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore Code Runner temp files
+tempCodeRunnerFile.*
+
+# Ignore build folders
+build/
+dist/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore Python cache (if any)
+__pycache__/
+
+# Ignore other common temp files
+*.swp
+*.swo
+*~
+
+# Ignore user-specific files
+*.user
+*.suo
+*.bak
+
+# Ignore compiled Python files
+*.pyc
+*.pyo
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
